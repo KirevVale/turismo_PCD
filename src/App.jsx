@@ -1,9 +1,9 @@
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const routes = [
-  { name: "Centro histórico", place: "Cochabamba · urbano", duration: "2–3 horas", description: "Una propuesta para descubrir espacios emblemáticos del centro mediante orientación, referencias verbales y pausas planificadas.", tags: ["Entorno urbano", "Ritmo flexible"], image: "https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=1000&q=85", alt: "Arquitectura urbana y calles de una ciudad" },
-  { name: "Parque y naturaleza", place: "Cochabamba · naturaleza", duration: "Media jornada", description: "Un recorrido demostrativo entre áreas verdes, con información previa sobre superficies, distancias y condiciones del trayecto.", tags: ["Espacios abiertos", "En evaluación"], image: "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1000&q=85", alt: "Sendero rodeado de árboles en un entorno natural" },
-  { name: "Miradores de la ciudad", place: "Cochabamba · panorámico", duration: "Por definir", description: "Idea de visita para conocer el paisaje y la historia local. El acceso y las condiciones deben evaluarse antes de ofrecerla.", tags: ["Paisaje", "Propuesta"], image: "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1000&q=85", alt: "Vista panorámica de montañas y valle" }
+  { name: "Centro histórico", place: "Cochabamba · urbano", duration: "2–3 horas", accessibility: "Ritmo flexible", description: "Una propuesta para descubrir espacios emblemáticos del centro mediante orientación, referencias verbales y pausas planificadas.", image: "https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=1000&q=85", alt: "Arquitectura urbana y calles de una ciudad" },
+  { name: "Parque y naturaleza", place: "Cochabamba · naturaleza", duration: "Media jornada", accessibility: "En evaluación", description: "Un recorrido demostrativo entre áreas verdes, con información previa sobre superficies, distancias y condiciones del trayecto.", image: "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1000&q=85", alt: "Sendero rodeado de árboles en un entorno natural" },
+  { name: "Miradores de la ciudad", place: "Cochabamba · panorámico", duration: "Por definir", accessibility: "Propuesta", description: "Idea de visita para conocer el paisaje y la historia local. El acceso y las condiciones deben evaluarse antes de ofrecerla.", image: "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1000&q=85", alt: "Vista panorámica de montañas y valle" }
 ];
 
 const services = [
@@ -41,6 +41,17 @@ function Icon({ name }) {
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const closeMenu = () => setMenuOpen(false);
+
+  useEffect(() => {
+    if (!menuOpen) return undefined;
+
+    const closeOnEscape = (event) => {
+      if (event.key === "Escape") closeMenu();
+    };
+
+    document.addEventListener("keydown", closeOnEscape);
+    return () => document.removeEventListener("keydown", closeOnEscape);
+  }, [menuOpen]);
   return (
     <>
       <a className="skip-link" href="#contenido">Saltar al contenido</a>
@@ -104,7 +115,7 @@ function App() {
         <section className="routes section-pad" id="recorridos">
           <div className="container">
             <div className="section-heading routes-heading"><div><p className="eyebrow">04 — DESTINOS</p><h2>Cochabamba, <em>por explorar.</em></h2></div><p>Ideas de recorrido para el prototipo. Las condiciones de acceso deben verificarse antes de ofrecer cada visita.</p></div>
-            <div className="route-grid">{routes.map((route,i) => <article className="route-card" key={route.name}><div className="route-photo"><img src={route.image} alt={route.alt} loading="lazy" /><span className="route-label">PROPUESTA {String(i+1).padStart(2,"0")}</span></div><div className="route-body"><p className="route-place"><Icon name="pin" /> {route.place}</p><h3>{route.name}</h3><p>{route.description}</p><div className="route-meta"><span>{route.duration}</span><span>{route.tags[1]}</span></div></div></article>)}</div>
+            <div className="route-grid">{routes.map((route, index) => <article className="route-card" key={route.name}><div className="route-photo"><img src={route.image} alt={route.alt} loading="lazy" /><span className="route-label">PROPUESTA {String(index + 1).padStart(2, "0")}</span></div><div className="route-body"><p className="route-place"><Icon name="pin" /> {route.place}</p><h3>{route.name}</h3><p>{route.description}</p><div className="route-meta"><span>{route.duration}</span><span>{route.accessibility}</span></div></div></article>)}</div>
             <p className="disclaimer"><strong>Nota de accesibilidad:</strong> estos destinos son referencias conceptuales. No se ha realizado una auditoría física de sus rutas ni se garantiza su accesibilidad.</p>
           </div>
         </section>
@@ -124,3 +135,4 @@ function App() {
 }
 
 export default App;
+
