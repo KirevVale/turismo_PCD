@@ -116,7 +116,6 @@ function App() {
           <div className="container">
             <div className="section-heading routes-heading"><div><p className="eyebrow">04 — DESTINOS</p><h2>Cochabamba, <em>por explorar.</em></h2></div><p>Ideas de recorrido para el prototipo. Las condiciones de acceso deben verificarse antes de ofrecer cada visita.</p></div>
             <div className="route-grid">{routes.map((route, index) => <article className="route-card" key={route.name}><div className="route-photo"><img src={route.image} alt={route.alt} loading="lazy" /><span className="route-label">PROPUESTA {String(index + 1).padStart(2, "0")}</span></div><div className="route-body"><p className="route-place"><Icon name="pin" /> {route.place}</p><h3>{route.name}</h3><p>{route.description}</p><div className="route-meta"><span>{route.duration}</span><span>{route.accessibility}</span></div></div></article>)}</div>
-            <p className="disclaimer"><strong>Nota de accesibilidad:</strong> estos destinos son referencias conceptuales. No se ha realizado una auditoría física de sus rutas ni se garantiza su accesibilidad.</p>
           </div>
         </section>
 
