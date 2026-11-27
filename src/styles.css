@@ -136,3 +136,9 @@ h2{font-size:clamp(36px,4.4vw,55px);line-height:1.17;margin-bottom:0}
   .hero-note{position:relative;left:auto;bottom:auto;margin-top:38px;max-width:100%;line-height:1.5}
 }
 
+.hero-note{position:relative;left:auto;bottom:auto;margin-top:42px}
+
+@media(max-width:650px){
+  .hero-note{margin-top:28px}
+}
+
